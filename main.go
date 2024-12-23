@@ -173,7 +173,7 @@ func makeMove(board *Board, fromX, fromY, toX, toY, axis int) {
 }
 
 func tryMove(board *Board, moves *[]Move) bool {
-	for i := 0; i < 250; i++ {
+	for i := 0; i < 90; i++ {
 		x, y := randomPin(board)
 		axis := rand.Int() & 1
 		wx := x
@@ -290,6 +290,7 @@ func trySolve() (Board, error) {
 				printBoard(&board)
 				if nPins < 2 {
 					printMoves(moves)
+					return board, nil
 				}
 			}
 			return Board{}, errors.New("nothing")
@@ -297,9 +298,9 @@ func trySolve() (Board, error) {
 
 		//printBoard(&board)
 
-		if isSolved(&board) {
+		/*if isSolved(&board) {
 			return board, nil
-		}
+		}*/
 	}
 }
 

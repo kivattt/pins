@@ -306,7 +306,6 @@ func trySolve() (Board, error) {
 func main() {
 	//defer profile.Start().Stop()
 
-	//for i := 0; i < 1000000000; i++ {
 	for {
 		b, err := trySolve()
 		if err != nil {

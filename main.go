@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"math/rand"
 	"os"
+
+//	"github.com/pkg/profile"
 )
 
 type Point int
@@ -50,8 +52,9 @@ func randomPin(board *Board) (int, int) {
 
 // X axis is 0, Y axis is 1
 func randomEmpty(board *Board, x, y, axis int) (int, int, error) {
-	for j := 0; j < 25; j++ {
-		i := rand.Intn(7)
+	//for j := 0; j < 25; j++ {
+	for i := 0; i < 7; i++ {
+		//i := rand.Intn(7)
 
 		theX := x
 		theY := y
@@ -95,7 +98,8 @@ func isValidMove(board *Board, fromX, fromY, toX, toY, axis int) bool {
 	}
 
 	if to != Empty {
-		panic("fail 2")
+		return false
+		//panic("fail 2")
 	}
 
 	abs := func(n int) int {
@@ -172,10 +176,27 @@ func tryMove(board *Board, moves *[]Move) bool {
 	for i := 0; i < 250; i++ {
 		x, y := randomPin(board)
 		axis := rand.Int() & 1
-		wx, wy, err := randomEmpty(board, x, y, axis)
+		wx := x
+		wy := y
+		if axis == 0 {
+			if rand.Int() & 1 == 0 {
+				wx += 2
+			} else {
+				wx -= 2
+			}
+			//wx += rand.Intn(5) - 2
+		} else {
+			if rand.Int() & 1 == 0 {
+				wy += 2
+			} else {
+				wy -= 2
+			}
+			//wy += rand.Intn(5) - 2
+		}
+		/*wx, wy, err := randomEmpty(board, x, y, axis)
 		if err != nil {
 			continue
-		}
+		}*/
 
 		if isValidMove(board, x, y, wx, wy, axis) {
 			makeMove(board, x, y, wx, wy, axis)
@@ -283,7 +304,10 @@ func trySolve() (Board, error) {
 }
 
 func main() {
-	for i := 0; i < 10000000000; i++ {
+	//defer profile.Start().Stop()
+
+	//for i := 0; i < 1000000000; i++ {
+	for {
 		b, err := trySolve()
 		if err != nil {
 			continue

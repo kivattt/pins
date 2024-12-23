@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"math/rand"
 	"os"
-
-//	"github.com/pkg/profile"
+	"time"
+	// "github.com/pkg/profile"
 )
 
 type Point int
@@ -306,6 +306,8 @@ func trySolve() (Board, error) {
 
 func main() {
 	//defer profile.Start().Stop()
+
+	rand.Seed(time.Now().UnixNano())
 
 	for {
 		b, err := trySolve()

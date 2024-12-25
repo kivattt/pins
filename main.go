@@ -3,10 +3,12 @@ package main
 import (
 	"errors"
 	"fmt"
+	"hash/maphash"
 	"math/rand"
 	"os"
 	"time"
-	// "github.com/pkg/profile"
+
+	//"github.com/pkg/profile"
 )
 
 type Point int
@@ -39,11 +41,22 @@ func printBoard(board *Board) {
 	fmt.Println()
 }
 
+func NewRand() *rand.Rand {
+	return rand.New(rand.NewSource(int64(Rand64())))
+}
+
+func Rand64() uint64 {
+	return new(maphash.Hash).Sum64()
+}
+
 // Returns the x and y position of a random pin on the board
 func randomPin(board *Board) (int, int) {
 	for {
 		x := rand.Intn(7)
 		y := rand.Intn(7)
+
+		//x := r.Intn(7)
+		//y := r.Intn(7)
 		if board[x][y] == Pin {
 			return x, y
 		}
@@ -304,10 +317,15 @@ func trySolve() (Board, error) {
 	}
 }
 
+var r *rand.Rand
+
 func main() {
 	//defer profile.Start().Stop()
 
-	rand.Seed(time.Now().UnixNano())
+	r = NewRand()
+
+	//rand.Seed(time.Now().UnixNano())
+	r.Seed(time.Now().UnixNano())
 
 	for {
 		b, err := trySolve()
